@@ -1,0 +1,8 @@
+*.mp4
+venv/
+models/
+runs/
+v1_videos/
+results/
+dataset/
+__pycache__/
