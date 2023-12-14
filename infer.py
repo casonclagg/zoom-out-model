@@ -47,10 +47,10 @@ args = parser.parse_args()
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 # Load the trained model
-net = model.UNet()
+net = model.VeryDeepUNet()
 checkpoint = torch.load(args.checkpoint, map_location=device)
 net.load_state_dict(checkpoint['model_state_dict'])
-net.to(device)s
+net.to(device)
 net.eval()
 
 # Define transformation

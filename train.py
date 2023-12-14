@@ -15,11 +15,8 @@ from torch.optim.lr_scheduler import StepLR
 from torch.utils.tensorboard import SummaryWriter
 
 # Create a TensorBoard writer
-MODEL_NAME="v3"
+MODEL_NAME="v6"
 writer = SummaryWriter(f'runs/{MODEL_NAME}')
-
-
-
 
 print(torch.__version__)
 
@@ -34,10 +31,10 @@ transform = transforms.Compose([
 
 # Load dataset
 dataset = ImagePairDataset(root_dir='dataset', transform=transform)
-dataloader = DataLoader(dataset, batch_size=32, shuffle=True)
+dataloader = DataLoader(dataset, batch_size=16, shuffle=True)
 
 # Initialize the model
-net = model.UNet().to(device)
+net = model.VeryDeepUNet().to(device)
 
 # Loss and optimizer
 mse_loss = nn.MSELoss()
@@ -70,8 +67,8 @@ def combined_loss(y_pred, y_true, alpha=0.5, beta=0.5):
     combined = mse + alpha * ssim + beta * edge
     return combined
 
-optimizer = optim.Adam(net.parameters(), lr=0.01)
-scheduler = StepLR(optimizer, step_size=10, gamma=0.5)
+optimizer = optim.Adam(net.parameters(), lr=0.02)
+scheduler = StepLR(optimizer, step_size=10, gamma=0.75)
 
 # Load checkpoint if exists
 checkpoint_path = f'models/{MODEL_NAME}_epoch_65.pth'
